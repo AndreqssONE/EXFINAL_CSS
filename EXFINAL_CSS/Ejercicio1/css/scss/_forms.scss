@@ -1,0 +1,113 @@
+// ============================================================
+// FORMULARIOS / WIZARD DE INSCRIPCIÓN
+// ============================================================
+
+.form-label {
+  font-weight: 600;
+  font-size: .88rem;
+}
+
+.form-control, .form-select {
+  border-radius: $border-radius;
+  border: 1px solid rgba($nova-ink, .16);
+  padding: .65rem .9rem;
+
+  &:focus {
+    border-color: $nova-violet;
+    box-shadow: 0 0 0 .2rem rgba($nova-violet, .18);
+  }
+}
+
+.form-check-input:checked {
+  background-color: $nova-violet;
+  border-color: $nova-violet;
+}
+
+.was-validated .form-control:valid, .form-control.is-valid {
+  border-color: $nova-cyan;
+}
+.was-validated .form-control:invalid, .form-control.is-invalid {
+  border-color: $danger;
+}
+
+// Progreso del wizard
+.wizard-steps {
+  display: flex;
+  justify-content: space-between;
+  counter-reset: nova-step;
+  margin-bottom: 2.5rem;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: rgba($nova-ink, .12);
+    z-index: 0;
+  }
+
+  .wizard-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    flex: 1;
+    counter-increment: nova-step;
+
+    .wizard-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid rgba($nova-ink, .18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto .5rem;
+      font-family: $font-mono;
+      font-weight: 700;
+      font-size: .85rem;
+      color: rgba($nova-ink, .5);
+      transition: all $transition-base;
+
+      &::before { content: counter(nova-step); }
+    }
+
+    .wizard-label {
+      font-size: .72rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: rgba($nova-ink, .5);
+      font-family: $font-mono;
+    }
+
+    &.is-active .wizard-dot {
+      background: $nova-violet;
+      border-color: $nova-violet;
+      color: #fff;
+      animation: nova-pulse 1.8s infinite;
+    }
+    &.is-active .wizard-label { color: $nova-violet; }
+
+    &.is-done .wizard-dot {
+      background: $nova-cyan;
+      border-color: $nova-cyan;
+      color: $nova-space;
+      &::before { content: "\2713"; }
+    }
+  }
+}
+
+.wizard-pane { display: none; &.is-active { display: block; animation: nova-rise .5s ease; } }
+
+.summary-panel {
+  background: $nova-cloud;
+  border: 1px dashed rgba($nova-ink, .2);
+  border-radius: $border-radius-lg;
+  padding: 1.5rem;
+
+  dt { font-family: $font-mono; font-size: .72rem; text-transform: uppercase; color: $nova-mist; letter-spacing: .06em; }
+  dd { font-weight: 600; margin-bottom: .75rem; }
+}

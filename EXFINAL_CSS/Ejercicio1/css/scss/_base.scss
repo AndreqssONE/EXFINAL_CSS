@@ -1,0 +1,106 @@
+// ============================================================
+// BASE
+// ============================================================
+
+@keyframes nova-orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes nova-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nova-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba($nova-cyan, .45); }
+  70% { box-shadow: 0 0 0 12px rgba($nova-cyan, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  font-feature-settings: "ss01" 1;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: $nova-violet;
+  color: #fff;
+}
+
+a {
+  @include focus-ring;
+}
+
+.font-mono { font-family: $font-mono; }
+
+.eyebrow { @include eyebrow; }
+
+.text-gradient-nova {
+  background: linear-gradient(100deg, $nova-violet 0%, $nova-coral 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-space {
+  background: radial-gradient(120% 140% at 15% -10%, $nova-space-2 0%, $nova-space 55%, #070A1E 100%);
+  color: $nova-cloud;
+}
+
+.section {
+  @include section-pad;
+  position: relative;
+}
+
+.section-divider {
+  display: block;
+  width: 100%;
+  height: 48px;
+  line-height: 0;
+}
+
+// Revelado en scroll
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@for $i from 1 through 8 {
+  .reveal-delay-#{$i} { transition-delay: #{$i * 0.08}s; }
+}
+
+// Anillo órbita reutilizado como firma visual
+.orbit-dot {
+  @include orbit-ring(56px, 2px, $nova-cyan);
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: $nova-violet;
+  color: #fff;
+  padding: .6rem 1rem;
+  z-index: 2000;
+  border-radius: 0 0 .4rem 0;
+  &:focus {
+    left: 0;
+  }
+}

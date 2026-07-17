@@ -1,0 +1,83 @@
+// ============================================================
+// PONENTES
+// ============================================================
+
+.speaker-filters {
+  .btn-check + .btn {
+    border-radius: $border-radius-pill;
+    border: 1px solid rgba($nova-ink, .15);
+    font-size: .85rem;
+    font-weight: 600;
+    color: $nova-ink;
+    padding: .5rem 1.1rem;
+  }
+  .btn-check:checked + .btn {
+    background: $nova-violet;
+    border-color: $nova-violet;
+    color: #fff;
+  }
+}
+
+.speaker-card {
+  text-align: center;
+  padding: 1.75rem 1.25rem;
+  background: #fff;
+  border-radius: $border-radius-lg;
+  border: 1px solid rgba($nova-ink, .07);
+  cursor: pointer;
+  @include hover-lift(-8px);
+
+  .speaker-avatar {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #fff;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 2px dashed rgba($nova-cyan, .55);
+    }
+  }
+
+  .speaker-name {
+    font-weight: 700;
+    margin-bottom: .15rem;
+  }
+
+  .speaker-role {
+    font-size: .82rem;
+    color: rgba($nova-ink, .6);
+  }
+
+  .speaker-tag {
+    font-family: $font-mono;
+    font-size: .65rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: $nova-violet;
+  }
+}
+
+.speaker-modal {
+  .modal-content {
+    border-radius: $border-radius-lg;
+    border: none;
+    overflow: hidden;
+  }
+  .modal-header-space {
+    background: $nova-space;
+    color: #fff;
+    padding: 2rem;
+  }
+}

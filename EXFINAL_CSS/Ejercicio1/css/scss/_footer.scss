@@ -1,0 +1,93 @@
+// ============================================================
+// FOOTER
+// ============================================================
+
+.nova-footer {
+  background: $nova-space;
+  color: rgba($nova-cloud, .75);
+  padding-top: 4rem;
+  padding-bottom: 1.5rem;
+
+  a { color: rgba($nova-cloud, .75); text-decoration: none; }
+  a:hover { color: $nova-cyan; }
+
+  h6 {
+    color: #fff;
+    font-family: $font-mono;
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 1.1rem;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    font-size: .82rem;
+  }
+
+  .social-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, .18);
+    transition: all $transition-fast;
+    &:hover { background: $nova-violet; border-color: $nova-violet; color: #fff; }
+  }
+}
+
+// Sedes / venue cards
+.venue-card {
+  background: #fff;
+  border-radius: $border-radius-lg;
+  border: 1px solid rgba($nova-ink, .08);
+  overflow: hidden;
+  @include hover-lift(-6px);
+
+  .venue-map {
+    height: 220px;
+    border: none;
+    width: 100%;
+    filter: grayscale(.15);
+  }
+}
+
+// Toast & alert
+.toast {
+  border: none;
+  border-radius: $border-radius;
+  box-shadow: $nova-shadow-md;
+}
+
+.alert-nova {
+  border: none;
+  border-left: 4px solid $nova-violet;
+  border-radius: $border-radius-sm;
+  background: rgba($nova-violet, .08);
+  color: darken($nova-violet, 12%);
+}
+
+// Sponsors carousel
+.sponsor-strip {
+  .carousel-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 1rem 0;
+  }
+  .sponsor-badge {
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: rgba($nova-cloud, .55);
+    letter-spacing: .02em;
+    white-space: nowrap;
+    transition: color $transition-fast;
+    &:hover { color: #fff; }
+  }
+}

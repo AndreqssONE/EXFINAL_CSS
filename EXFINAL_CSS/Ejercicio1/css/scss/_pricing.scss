@@ -1,0 +1,103 @@
+// ============================================================
+// ENTRADAS / PRICING
+// ============================================================
+
+.pricing-card {
+  background: #fff;
+  border-radius: $border-radius-xl;
+  border: 1px solid rgba($nova-ink, .08);
+  padding: 2.25rem 1.85rem;
+  height: 100%;
+  position: relative;
+  @include hover-lift(-6px);
+
+  .pricing-name { @include eyebrow; }
+
+  .pricing-price {
+    font-family: $font-display;
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: .5rem 0 0;
+  }
+
+  .pricing-currency {
+    font-size: 1rem;
+    font-weight: 600;
+    vertical-align: top;
+    color: rgba($nova-ink, .55);
+  }
+
+  .pricing-period {
+    font-size: .85rem;
+    color: rgba($nova-ink, .55);
+  }
+
+  ul.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+
+    li {
+      display: flex;
+      gap: .6rem;
+      padding: .45rem 0;
+      font-size: .93rem;
+      border-bottom: 1px dashed rgba($nova-ink, .1);
+
+      i { color: $nova-cyan; margin-top: .15rem; }
+    }
+  }
+
+  &.pricing-featured {
+    background: $nova-space;
+    color: $nova-cloud;
+    border: none;
+    box-shadow: $nova-shadow-violet;
+    transform: scale(1.03);
+
+    .pricing-price, .pricing-name { color: #fff; }
+    .pricing-currency, .pricing-period { color: rgba($nova-cloud, .65); }
+    ul.pricing-features li { border-color: rgba(255, 255, 255, .12); }
+
+    @include media-breakpoint-down(lg) { transform: none; }
+  }
+
+  .pricing-ribbon {
+    position: absolute;
+    top: -14px;
+    right: 1.75rem;
+    background: $nova-coral;
+    color: #fff;
+    font-family: $font-mono;
+    font-size: .68rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: .4rem .85rem;
+    border-radius: $border-radius-pill;
+    box-shadow: $nova-shadow-coral;
+  }
+}
+
+.faq-accordion {
+  .accordion-item {
+    border: none;
+    border-bottom: 1px solid rgba($nova-ink, .1);
+    background: transparent;
+  }
+  .accordion-button {
+    font-weight: 600;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+
+    &:not(.collapsed) {
+      color: $nova-violet;
+      background: transparent;
+      box-shadow: none;
+    }
+    &:focus { box-shadow: none; }
+    &::after { filter: hue-rotate(220deg) saturate(3); }
+  }
+  .accordion-body { padding-left: 0; padding-right: 0; color: rgba($nova-ink, .7); }
+}

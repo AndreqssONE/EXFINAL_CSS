@@ -1,0 +1,58 @@
+// ============================================================
+// MIXINS REUTILIZABLES
+// ============================================================
+
+@mixin orbit-ring($size: 64px, $thickness: 2px, $color: $nova-cyan) {
+  position: relative;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: $thickness dashed rgba($color, .55);
+    animation: nova-orbit-spin 18s linear infinite;
+  }
+}
+
+@mixin section-pad {
+  padding-top: $section-pad-y-mobile;
+  padding-bottom: $section-pad-y-mobile;
+  @include media-breakpoint-up(lg) {
+    padding-top: $section-pad-y-desktop;
+    padding-bottom: $section-pad-y-desktop;
+  }
+}
+
+@mixin eyebrow {
+  font-family: $font-mono;
+  font-size: .75rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: $nova-violet;
+  font-weight: 600;
+}
+
+@mixin glass-panel($bg: rgba(255, 255, 255, .06)) {
+  background: $bg;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .12);
+}
+
+@mixin hover-lift($y: -6px) {
+  transition: transform $transition-base, box-shadow $transition-base;
+  &:hover, &:focus-visible {
+    transform: translateY($y);
+    box-shadow: $nova-shadow-md;
+  }
+}
+
+@mixin focus-ring($color: $nova-violet) {
+  &:focus-visible {
+    outline: 3px solid rgba($color, .45);
+    outline-offset: 2px;
+  }
+}

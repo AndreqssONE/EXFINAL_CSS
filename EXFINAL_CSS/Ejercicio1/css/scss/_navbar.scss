@@ -1,0 +1,77 @@
+// ============================================================
+// NAVBAR
+// ============================================================
+
+.nova-navbar {
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+  background: rgba(11, 17, 48, .55);
+  @include glass-panel(rgba(11, 17, 48, .55));
+  transition: padding $transition-base, background $transition-base, box-shadow $transition-base;
+
+  &.is-scrolled {
+    padding-top: .55rem;
+    padding-bottom: .55rem;
+    background: rgba(7, 10, 30, .92);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+  }
+
+  .navbar-brand {
+    font-family: $font-display;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: conic-gradient(from 210deg, $nova-violet, $nova-cyan, $nova-coral, $nova-violet);
+      display: inline-flex;
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: $nova-space;
+      }
+    }
+  }
+
+  .nav-link {
+    color: rgba($nova-cloud, .82);
+    font-weight: 500;
+    font-size: .95rem;
+    padding: .5rem 1rem !important;
+    border-radius: $border-radius-pill;
+    transition: color $transition-fast, background $transition-fast;
+
+    &:hover, &:focus-visible {
+      color: #fff;
+      background: rgba(255, 255, 255, .08);
+    }
+  }
+
+  .nav-link.active {
+    color: #fff;
+    background: rgba($nova-violet, .55);
+  }
+}
+
+.offcanvas.nova-offcanvas {
+  background: $nova-space;
+  color: $nova-cloud;
+
+  .nav-link {
+    color: rgba($nova-cloud, .85);
+    font-size: 1.05rem;
+    padding: .75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+    &.active { color: $nova-cyan; }
+  }
+}

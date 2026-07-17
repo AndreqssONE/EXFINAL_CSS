@@ -1,0 +1,60 @@
+// ============================================================
+// TECHNOVA SUMMIT 2026 — TOKENS DE DISEÑO
+// ============================================================
+// Paleta: "Deep Space" — nada de azul Bootstrap por defecto.
+$nova-space:      #0B1130; // fondo base oscuro (no negro puro)
+$nova-space-2:    #131A44; // fondo oscuro secundario (paneles)
+$nova-violet:     #6C4CF2; // color de marca / primario
+$nova-violet-dk:  #4C31C4; // violeta oscurecido (hover/active)
+$nova-coral:      #FF6B5B; // acento cálido / CTA
+$nova-cyan:       #34E4C8; // acento frío / datos y highlights
+$nova-cloud:      #F5F6FA; // fondo claro alterno
+$nova-mist:       #A9AFC9; // texto secundario sobre fondo oscuro
+$nova-ink:        #10132B; // texto principal sobre fondo claro
+
+// Reasignación de variables Bootstrap
+$primary:       $nova-violet;
+$secondary:     $nova-coral;
+$success:       $nova-cyan;
+$info:          $nova-cyan;
+$warning:       #FFC857;
+$danger:        #FF4D6D;
+$light:         $nova-cloud;
+$dark:          $nova-space;
+
+$body-color:    $nova-ink;
+$body-bg:       $nova-cloud;
+
+// Tipografía
+$font-display:  "Space Grotesk", "Segoe UI", sans-serif;
+$font-body:     "Inter", "Segoe UI", sans-serif;
+$font-mono:     "JetBrains Mono", "Courier New", monospace;
+
+$font-family-base: $font-body;
+$headings-font-family: $font-display;
+$headings-font-weight: 600;
+$headings-color: $nova-ink;
+$headings-letter-spacing: -0.02em;
+
+// Bordes y radios — nada de rounded-3 genérico repetido sin criterio
+$border-radius:       .5rem;
+$border-radius-sm:    .35rem;
+$border-radius-lg:    1rem;
+$border-radius-xl:    1.75rem;
+$border-radius-pill:  50rem;
+
+// Espaciados de sección propios (no solo py-5 de Bootstrap)
+$section-pad-y-mobile:  4rem;
+$section-pad-y-desktop: 7rem;
+
+// Sombras de marca
+$nova-shadow-sm: 0 4px 14px rgba(11, 17, 48, .08);
+$nova-shadow-md: 0 12px 32px rgba(11, 17, 48, .14);
+$nova-shadow-violet: 0 14px 34px rgba(108, 76, 242, .35);
+$nova-shadow-coral: 0 14px 30px rgba(255, 107, 91, .35);
+
+// Transiciones
+$transition-fast: .18s ease;
+$transition-base: .32s cubic-bezier(.22, .61, .36, 1);
+
+// Grid / breakpoints — se usan los de Bootstrap, no se sobreescriben

@@ -1,0 +1,96 @@
+// ============================================================
+// HERO
+// ============================================================
+
+.hero {
+  padding-top: 9.5rem;
+  padding-bottom: 5rem;
+  position: relative;
+  overflow: hidden;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 11rem;
+    padding-bottom: 7rem;
+  }
+
+  .hero-rings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .55;
+    z-index: 0;
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  h1 {
+    font-size: clamp(2.3rem, 5vw, 3.75rem);
+    line-height: 1.05;
+  }
+
+  .hero-lede {
+    color: rgba($nova-cloud, .8);
+    font-size: 1.15rem;
+    max-width: 46ch;
+  }
+
+  .hero-meta {
+    font-family: $font-mono;
+    color: $nova-cyan;
+    font-size: .85rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+}
+
+// Countdown estilo telemetría de lanzamiento
+.telemetry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .6rem;
+
+  @include media-breakpoint-up(sm) {
+    gap: .9rem;
+  }
+
+  .telemetry-cell {
+    @include glass-panel(rgba(255, 255, 255, .05));
+    border-radius: $border-radius-lg;
+    padding: .9rem .4rem;
+    text-align: center;
+
+    .telemetry-value {
+      font-family: $font-mono;
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .telemetry-label {
+      font-family: $font-mono;
+      font-size: .62rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: $nova-mist;
+    }
+  }
+}
+
+.hero-stats {
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  margin-top: 3rem;
+  padding-top: 2rem;
+
+  .stat-number {
+    font-family: $font-display;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    font-weight: 700;
+    color: $nova-cyan;
+  }
+
+  .stat-label {
+    color: rgba($nova-cloud, .7);
+    font-size: .85rem;
+  }
+}

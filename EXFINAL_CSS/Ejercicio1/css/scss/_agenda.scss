@@ -1,0 +1,89 @@
+// ============================================================
+// AGENDA — de cronograma horizontal (desktop) a tarjetas (móvil)
+// ============================================================
+
+.agenda-pills {
+  .nav-link {
+    font-family: $font-mono;
+    font-size: .85rem;
+    letter-spacing: .06em;
+    border-radius: $border-radius-pill;
+    padding: .65rem 1.35rem;
+    color: $nova-ink;
+    border: 1px solid rgba($nova-ink, .12);
+    margin-right: .5rem;
+    margin-bottom: .5rem;
+
+    &.active {
+      background: $nova-violet;
+      color: #fff;
+      border-color: $nova-violet;
+      box-shadow: $nova-shadow-violet;
+    }
+  }
+}
+
+.agenda-track {
+  // Desktop: cronograma horizontal tipo "vías" por sala
+  display: none;
+
+  @include media-breakpoint-up(lg) {
+    display: grid;
+    grid-template-columns: 110px repeat(3, 1fr);
+    gap: .75rem;
+
+    .agenda-track-head {
+      font-family: $font-mono;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: $nova-mist;
+      padding: .5rem;
+      text-align: center;
+    }
+
+    .agenda-time {
+      font-family: $font-mono;
+      font-weight: 600;
+      color: $nova-ink;
+      display: flex;
+      align-items: center;
+      font-size: .85rem;
+    }
+  }
+}
+
+.agenda-stack {
+  display: block;
+  @include media-breakpoint-up(lg) { display: none; }
+}
+
+.session-card {
+  background: #fff;
+  border: 1px solid rgba($nova-ink, .08);
+  border-left: 4px solid $nova-violet;
+  border-radius: $border-radius;
+  padding: 1rem 1.1rem;
+  margin-bottom: .75rem;
+  @include hover-lift(-4px);
+
+  &.track-workshop { border-left-color: $nova-coral; }
+  &.track-keynote  { border-left-color: $nova-cyan; }
+
+  .session-time {
+    font-family: $font-mono;
+    font-size: .75rem;
+    color: $nova-violet;
+    letter-spacing: .04em;
+  }
+
+  .session-title {
+    font-weight: 700;
+    margin: .2rem 0 .3rem;
+  }
+
+  .session-meta {
+    font-size: .82rem;
+    color: rgba($nova-ink, .62);
+  }
+}

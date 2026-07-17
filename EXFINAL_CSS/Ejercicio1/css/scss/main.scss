@@ -1,0 +1,26 @@
+// ============================================================
+// TECHNOVA SUMMIT 2026 — HOJA PRINCIPAL SCSS
+// Bootstrap 5 + personalización total de marca "Deep Space"
+// ============================================================
+
+@import "variables";
+
+// Bootstrap (instalado localmente solo para compilar variables/mixins;
+// en producción las páginas cargan Bootstrap 5.3 vía CDN + este CSS compilado encima)
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/variables-dark";
+@import "../../node_modules/bootstrap/scss/maps";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/utilities";
+
+@import "mixins";
+@import "base";
+@import "navbar";
+@import "hero";
+@import "buttons-cards";
+@import "agenda";
+@import "speakers";
+@import "pricing";
+@import "forms";
+@import "footer";

@@ -1,0 +1,90 @@
+// ============================================================
+// BOTONES
+// ============================================================
+
+.btn {
+  font-weight: 600;
+  border-radius: $border-radius-pill;
+  padding: .68rem 1.5rem;
+  transition: transform $transition-fast, box-shadow $transition-base, background $transition-fast, color $transition-fast;
+  @include focus-ring;
+
+  &:active { transform: translateY(1px); }
+}
+
+.btn-primary {
+  background: linear-gradient(120deg, $nova-violet 0%, $nova-violet-dk 100%);
+  border: none;
+  &:hover, &:focus-visible {
+    box-shadow: $nova-shadow-violet;
+    transform: translateY(-2px);
+    background: linear-gradient(120deg, $nova-violet-dk 0%, $nova-violet 100%);
+  }
+}
+
+.btn-secondary {
+  background: $nova-coral;
+  border: none;
+  color: #fff;
+  &:hover, &:focus-visible {
+    box-shadow: $nova-shadow-coral;
+    transform: translateY(-2px);
+    background: darken($nova-coral, 6%);
+    color: #fff;
+  }
+}
+
+.btn-outline-light {
+  &:hover { transform: translateY(-2px); }
+}
+
+.btn-ghost-cyan {
+  background: transparent;
+  border: 1.5px solid rgba($nova-cyan, .6);
+  color: $nova-cyan;
+  &:hover, &:focus-visible {
+    background: rgba($nova-cyan, .12);
+    color: $nova-cyan;
+    transform: translateY(-2px);
+  }
+}
+
+.btn-lg { padding: .85rem 2rem; font-size: 1.02rem; }
+
+// ============================================================
+// TARJETAS
+// ============================================================
+
+.card {
+  border: 1px solid rgba($nova-ink, .06);
+  border-radius: $border-radius-lg;
+}
+
+.nova-card {
+  @include hover-lift(-8px);
+  border-radius: $border-radius-lg;
+  border: 1px solid rgba($nova-ink, .07);
+  background: #fff;
+  height: 100%;
+
+  .nova-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: $border-radius;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    background: rgba($nova-violet, .12);
+    color: $nova-violet;
+  }
+}
+
+.badge-nova {
+  font-family: $font-mono;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .4em .75em;
+  border-radius: $border-radius-pill;
+}
