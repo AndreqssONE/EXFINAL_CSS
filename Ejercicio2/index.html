@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recirca — Marketplace de segunda vida</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="js/tailwind.config.js"></script>
+<style type="text/tailwindcss">
+  @layer base {
+    body { @apply font-body text-brand-900 bg-paper-50; }
+    h1,h2,h3,h4 { @apply font-display; }
+    ::selection { @apply bg-clay-200 text-brand-900; }
+  }
+  @layer components {
+    /* ---- Botones ---- */
+    .btn {
+      @apply inline-flex items-center justify-center gap-2 font-body font-semibold text-sm px-5 py-2.5 rounded-tag transition-all duration-150 ease-out select-none disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none;
+    }
+    .btn-primary {
+      @apply btn bg-brand-600 text-paper-50 hover:bg-brand-700 active:bg-brand-800 active:scale-[.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-500;
+    }
+    .btn-secondary {
+      @apply btn bg-transparent text-brand-700 border border-brand-300 hover:border-brand-600 hover:bg-brand-50 active:scale-[.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-500;
+    }
+    .btn-clay {
+      @apply btn bg-clay-500 text-paper-50 hover:bg-clay-600 active:bg-clay-700 active:scale-[.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-clay-400;
+    }
+    .btn-ghost {
+      @apply btn bg-transparent text-brand-600 hover:bg-brand-100 active:scale-[.97] px-3;
+    }
+    .btn-icon {
+      @apply inline-flex items-center justify-center w-10 h-10 rounded-tag border border-brand-200 text-brand-600 hover:border-brand-500 hover:text-brand-800 hover:bg-brand-50 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500;
+    }
+
+    /* ---- Badges / chips / estados ---- */
+    .badge { @apply inline-flex items-center gap-1 text-[11px] font-tag font-bold uppercase tracking-wide px-2 py-1 rounded-tag border; }
+    .badge-eco { @apply badge bg-brand-100 text-brand-700 border-brand-300; }
+    .badge-clay { @apply badge bg-clay-100 text-clay-700 border-clay-300; }
+    .badge-gold { @apply badge bg-gold-300/40 text-clay-800 border-gold-400; }
+    .badge-neutral { @apply badge bg-paper-200 text-brand-700 border-brand-200; }
+
+    .chip {
+      @apply inline-flex items-center gap-1.5 text-sm font-medium px-3.5 py-1.5 rounded-full border border-brand-200 text-brand-700 bg-paper-50 cursor-pointer transition-colors hover:border-brand-500 hover:bg-brand-50 active:scale-95;
+    }
+    .chip-active { @apply chip bg-brand-600 text-paper-50 border-brand-600 hover:bg-brand-700 hover:border-brand-700; }
+
+    .price-tag { @apply font-tag font-bold text-brand-900; }
+    .price-tag-lg { @apply price-tag text-2xl; }
+    .price-tag-old { @apply font-tag text-brand-400 line-through text-sm; }
+
+    /* ---- Alertas ---- */
+    .alert { @apply flex items-start gap-3 rounded-tag border px-4 py-3 text-sm; }
+    .alert-info { @apply alert bg-brand-50 border-brand-200 text-brand-800; }
+    .alert-success { @apply alert bg-brand-100 border-brand-400 text-brand-800; }
+    .alert-warn { @apply alert bg-gold-300/30 border-gold-400 text-clay-800; }
+    .alert-error { @apply alert bg-clay-50 border-clay-400 text-clay-800; }
+
+    /* ---- Inputs ---- */
+    .field-label { @apply block text-xs font-tag font-bold uppercase tracking-wide text-brand-600 mb-1.5; }
+    .input {
+      @apply w-full rounded-tag border border-brand-200 bg-paper-50 px-3.5 py-2.5 text-sm text-brand-900 placeholder:text-brand-400 transition-colors
+      hover:border-brand-400
+      focus:outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100
+      disabled:bg-paper-200 disabled:text-brand-400 disabled:cursor-not-allowed;
+    }
+    .input-invalid { @apply input border-clay-500 focus:border-clay-600 focus:ring-clay-100; }
+    .input-valid { @apply input border-brand-500 focus:border-brand-600 focus:ring-brand-100; }
+    .select { @apply input pr-8 appearance-none bg-no-repeat bg-[right_0.9rem_center] bg-[length:0.7rem]; }
+
+    /* ---- Card base ---- */
+    .card { @apply bg-paper-50 border border-brand-200/70 rounded-tag transition-shadow duration-200; }
+    .card-hover { @apply card hover:border-brand-400 hover:shadow-[4px_4px_0_0_theme(colors.brand.200)]; }
+
+    /* Tarjeta de producto estilo "etiqueta de segunda mano" */
+    .card-product {
+      @apply card-hover relative flex flex-col overflow-hidden h-full;
+    }
+    .card-product .notch {
+      @apply absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-paper-100 border border-brand-200/70;
+    }
+    .stamp {
+      @apply absolute top-3 right-3 flex items-center justify-center w-14 h-14 rounded-full border-2 border-clay-500 text-clay-600 font-tag text-[10px] font-bold uppercase text-center leading-tight -rotate-[10deg] bg-paper-50/90 animate-stampIn;
+    }
+
+    .stat-card { @apply flex flex-col gap-1 rounded-tag border border-brand-700/40 bg-brand-800/60 px-5 py-4; }
+    .stat-num { @apply font-display text-3xl md:text-4xl text-gold-300; }
+    .stat-label { @apply text-xs uppercase tracking-wide text-brand-200 font-tag; }
+
+    .section-eyebrow { @apply font-tag uppercase tracking-[0.2em] text-xs text-clay-600 font-bold; }
+    .divider-dashed { @apply border-t border-dashed border-brand-300; }
+
+    .navlink { @apply text-sm font-medium text-brand-700 hover:text-brand-900 transition-colors relative pb-1; }
+    .navlink-active { @apply navlink text-brand-900 after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-[1px] after:h-[2px] after:bg-clay-500; }
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ===================== NAV ===================== -->
+<header class="sticky top-0 z-40 bg-paper-50/90 backdrop-blur border-b border-brand-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 gap-4">
+      <button onclick="goTo('inicio')" class="flex items-center gap-2 shrink-0">
+        <span class="w-8 h-8 rounded-full bg-brand-700 flex items-center justify-center text-paper-50 font-display text-sm rotate-[-6deg]">R</span>
+        <span class="font-display text-xl font-semibold tracking-tight">Recirca</span>
+      </button>
+
+      <nav class="hidden lg:flex items-center gap-7" id="desktop-nav">
+        <button onclick="goTo('inicio')" data-nav="inicio" class="navlink-active">Inicio</button>
+        <button onclick="goTo('catalogo')" data-nav="catalogo" class="navlink">Catálogo</button>
+        <button onclick="goTo('detalle')" data-nav="detalle" class="navlink">Producto</button>
+        <button onclick="goTo('perfil')" data-nav="perfil" class="navlink">Vendedor</button>
+        <button onclick="goTo('carrito')" data-nav="carrito" class="navlink">Carrito</button>
+        <button onclick="goTo('publicar')" data-nav="publicar" class="navlink">Publicar / Ayuda</button>
+      </nav>
+
+      <div class="hidden md:flex items-center gap-3">
+        <button onclick="goTo('carrito')" class="btn-icon relative" aria-label="Carrito">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>
+          <span class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-clay-500 text-paper-50 text-[10px] font-bold flex items-center justify-center">3</span>
+        </button>
+        <button onclick="goTo('publicar')" class="btn-clay">Publicar producto</button>
+      </div>
+
+      <button class="lg:hidden btn-icon" onclick="toggleMobileNav()" aria-label="Abrir menú">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+
+    <nav id="mobile-nav" class="hidden lg:hidden pb-4 flex flex-col gap-3">
+      <button onclick="goTo('inicio')" class="navlink text-left">Inicio</button>
+      <button onclick="goTo('catalogo')" class="navlink text-left">Catálogo</button>
+      <button onclick="goTo('detalle')" class="navlink text-left">Producto</button>
+      <button onclick="goTo('perfil')" class="navlink text-left">Vendedor</button>
+      <button onclick="goTo('carrito')" class="navlink text-left">Carrito (3)</button>
+      <button onclick="goTo('publicar')" class="btn-clay w-full mt-1">Publicar producto</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ===================== 1. INICIO ===================== -->
+<section id="view-inicio" class="view">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-20 grid lg:grid-cols-12 gap-10 items-center">
+    <div class="lg:col-span-6 animate-fadeUp">
+      <p class="section-eyebrow mb-4">Marketplace de reuso · Perú</p>
+      <h1 class="text-4xl xs:text-5xl md:text-6xl font-semibold leading-[1.05] mb-6">
+        Cada objeto<br> merece <span class="text-clay-500 italic font-normal">una segunda vida.</span>
+      </h1>
+      <p class="text-brand-700 text-lg max-w-md mb-8">
+        Compra, vende e intercambia productos usados y verificados. Menos consumo nuevo, menos residuos, más confianza entre personas.
+      </p>
+      <form class="flex flex-col xs:flex-row gap-3 max-w-lg mb-6" onsubmit="event.preventDefault(); goTo('catalogo')">
+        <input type="search" class="input flex-1" placeholder="Busca bicicletas, ropa, muebles…">
+        <button class="btn-primary xs:w-auto w-full">Buscar</button>
+      </form>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge-eco">Verificado por la comunidad</span>
+        <span class="badge-clay">Envío con huella reducida</span>
+      </div>
+    </div>
+
+    <div class="lg:col-span-6 relative animate-fadeUp" style="animation-delay:.1s">
+      <div class="grid grid-cols-5 grid-rows-5 gap-3 h-[420px]">
+        <img src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&q=60" class="col-span-3 row-span-3 rounded-tag object-cover w-full h-full border border-brand-200" alt="Bicicleta reacondicionada">
+        <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&q=60" class="col-span-2 row-span-2 rounded-tag object-cover w-full h-full border border-brand-200" alt="Ropa de segunda mano">
+        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=400&q=60" class="col-span-2 row-span-3 rounded-tag object-cover w-full h-full border border-brand-200" alt="Silla vintage">
+        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=60" class="col-span-3 row-span-2 rounded-tag object-cover w-full h-full border border-brand-200" alt="Libros usados">
+      </div>
+      <div class="stamp absolute -bottom-4 -left-4 !static-none" style="position:absolute; top:auto; right:auto; bottom:-1rem; left:-1rem;">Segunda<br>vida</div>
+    </div>
+  </div>
+
+  <!-- Categorías -->
+  <div class="bg-brand-50 border-y border-brand-200 py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-semibold mb-8">Explora por categoría</h2>
+      <div class="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-6 gap-4">
+        <button class="card-hover flex flex-col items-center gap-2 py-6 px-3" onclick="goTo('catalogo')">
+          <svg class="w-7 h-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 18V9l6-4 6 8h-9"/></svg>
+          <span class="text-sm font-medium">Movilidad</span>
+        </button>
+        <button class="card-hover flex flex-col items-center gap-2 py-6 px-3" onclick="goTo('catalogo')">
+          <svg class="w-7 h-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 4h12l2 4-8 12L4 8Z"/></svg>
+          <span class="text-sm font-medium">Moda</span>
+        </button>
+        <button class="card-hover flex flex-col items-center gap-2 py-6 px-3" onclick="goTo('catalogo')">
+          <svg class="w-7 h-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V10l8-6 8 6v10H4Z"/><path d="M9 20v-6h6v6"/></svg>
+          <span class="text-sm font-medium">Hogar</span>
+        </button>
+        <button class="card-hover flex flex-col items-center gap-2 py-6 px-3" onclick="goTo('catalogo')">
+          <svg class="w-7 h-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 15l4-4 4 4 5-6 3 4"/></svg>
+          <span class="text-sm font-medium">Tecnología</span>
+        </button>
+        <button class="card-hover flex flex-col items-center gap-2 py-6 px-3" onclick="goTo('catalogo')">
+          <svg class="w-7 h-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5V6a2 2 0 0 1 2-2h9l5 5v10.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+          <span class="text-sm font-medium">Libros</span>
+        </button>
+        <button class="card-hover flex flex-col items-center gap-2 py-6 px-3" onclick="goTo('catalogo')">
+          <svg class="w-7 h-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+          <span class="text-sm font-medium">Niños</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Destacados -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <p class="section-eyebrow mb-2">Elegidos por la comunidad</p>
+        <h2 class="text-2xl font-semibold">Productos destacados</h2>
+      </div>
+      <button onclick="goTo('catalogo')" class="btn-ghost hidden sm:inline-flex">Ver catálogo →</button>
+    </div>
+    <div id="featured-grid" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </div>
+
+  <!-- Beneficios ambientales (sección de contraste oscuro) -->
+  <div class="bg-brand-900 text-paper-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-5">
+          <p class="section-eyebrow text-clay-300 mb-3">Impacto real</p>
+          <h2 class="text-3xl font-semibold mb-4">Reusar también es cuidar</h2>
+          <p class="text-brand-200 mb-6">Cada compra en Recirca evita fabricar algo nuevo. Estas son las cifras acumuladas por nuestra comunidad este año.</p>
+          <button class="btn-secondary !border-brand-500 !text-paper-50 hover:!bg-brand-800">Conoce nuestro impacto</button>
+        </div>
+        <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div class="stat-card"><span class="stat-num">18.4t</span><span class="stat-label">CO₂ evitado</span></div>
+          <div class="stat-card"><span class="stat-num">92k</span><span class="stat-label">Productos reusados</span></div>
+          <div class="stat-card"><span class="stat-num">340k L</span><span class="stat-label">Agua ahorrada</span></div>
+          <div class="stat-card"><span class="stat-num">4.8/5</span><span class="stat-label">Confianza promedio</span></div>
+          <div class="stat-card"><span class="stat-num">12k</span><span class="stat-label">Vendedores activos</span></div>
+          <div class="stat-card"><span class="stat-num">61%</span><span class="stat-label">Compras recurrentes</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonios -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <p class="section-eyebrow mb-2">Voces de la comunidad</p>
+    <h2 class="text-2xl font-semibold mb-8">Lo que dicen quienes ya reusan</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <blockquote class="card p-6 flex flex-col gap-4">
+        <p class="text-brand-700">"Vendí mi bicicleta en tres días y el comprador quedó feliz con el estado real que describí."</p>
+        <footer class="flex items-center gap-3 mt-auto">
+          <img src="https://i.pravatar.cc/80?img=12" class="w-9 h-9 rounded-full object-cover" alt="">
+          <div class="text-sm"><p class="font-semibold">Marisol Q.</p><p class="text-brand-500">Vendedora, Arequipa</p></div>
+        </footer>
+      </blockquote>
+      <blockquote class="card p-6 flex flex-col gap-4">
+        <p class="text-brand-700">"Compré una cómoda de madera maciza a mitad de precio de una nueva, en perfecto estado."</p>
+        <footer class="flex items-center gap-3 mt-auto">
+          <img src="https://i.pravatar.cc/80?img=32" class="w-9 h-9 rounded-full object-cover" alt="">
+          <div class="text-sm"><p class="font-semibold">Renzo A.</p><p class="text-brand-500">Comprador, Lima</p></div>
+        </footer>
+      </blockquote>
+      <blockquote class="card p-6 flex flex-col gap-4">
+        <p class="text-brand-700">"El sistema de reputación me dio confianza para intercambiar ropa de bebé con otra mamá del barrio."</p>
+        <footer class="flex items-center gap-3 mt-auto">
+          <img src="https://i.pravatar.cc/80?img=45" class="w-9 h-9 rounded-full object-cover" alt="">
+          <div class="text-sm"><p class="font-semibold">Diana F.</p><p class="text-brand-500">Compradora, Trujillo</p></div>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. CATÁLOGO ===================== -->
+<section id="view-catalogo" class="view hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
+      <div class="relative flex-1">
+        <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" class="input pl-10" placeholder="Buscar en el catálogo…">
+      </div>
+      <select class="select w-full sm:w-56">
+        <option>Ordenar: relevancia</option>
+        <option>Precio: menor a mayor</option>
+        <option>Precio: mayor a menor</option>
+        <option>Más recientes</option>
+        <option>Mejor calificados</option>
+      </select>
+      <button class="btn-secondary lg:hidden" onclick="toggleFilters()">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        Filtros
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Sidebar filtros escritorio -->
+      <aside class="hidden lg:block lg:col-span-3">
+        <div class="card p-5 sticky top-24 flex flex-col gap-6">
+          <div>
+            <h3 class="font-semibold mb-3 text-sm">Categoría</h3>
+            <div class="flex flex-col gap-2 text-sm">
+              <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600" checked> Movilidad</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600"> Moda</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600"> Hogar</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600"> Tecnología</label>
+            </div>
+          </div>
+          <div class="divider-dashed"></div>
+          <div>
+            <h3 class="font-semibold mb-3 text-sm">Estado</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="chip-active">Como nuevo</span>
+              <span class="chip">Buen estado</span>
+              <span class="chip">Con detalles</span>
+            </div>
+          </div>
+          <div class="divider-dashed"></div>
+          <div>
+            <h3 class="font-semibold mb-3 text-sm">Precio (S/)</h3>
+            <div class="flex items-center gap-2">
+              <input type="number" class="input" placeholder="Mín">
+              <span class="text-brand-400">–</span>
+              <input type="number" class="input" placeholder="Máx">
+            </div>
+          </div>
+          <div class="divider-dashed"></div>
+          <div>
+            <h3 class="font-semibold mb-3 text-sm">Ubicación</h3>
+            <select class="select w-full"><option>Todo el Perú</option><option>Lima</option><option>Arequipa</option><option>Cusco</option></select>
+          </div>
+          <button class="btn-primary w-full">Aplicar filtros</button>
+        </div>
+      </aside>
+
+      <!-- Grid productos -->
+      <div class="lg:col-span-9">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-sm text-brand-500">128 productos encontrados</p>
+          <div class="hidden sm:flex flex-wrap gap-2">
+            <span class="chip-active">Todos</span>
+            <span class="chip">Verificados</span>
+            <span class="chip">Con envío gratis</span>
+          </div>
+        </div>
+        <div id="catalog-grid" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></div>
+
+        <!-- Paginación -->
+        <nav class="flex items-center justify-center gap-1.5 flex-wrap">
+          <button class="btn-icon" aria-label="Anterior">‹</button>
+          <button class="w-10 h-10 rounded-tag bg-brand-600 text-paper-50 font-medium">1</button>
+          <button class="btn-icon">2</button>
+          <button class="btn-icon">3</button>
+          <span class="px-2 text-brand-400">…</span>
+          <button class="btn-icon">12</button>
+          <button class="btn-icon" aria-label="Siguiente">›</button>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel filtros móvil (deslizable) -->
+  <div id="filter-overlay" class="hidden fixed inset-0 z-50 bg-brand-900/40" onclick="toggleFilters()"></div>
+  <div id="filter-panel" class="hidden fixed right-0 top-0 z-50 h-full w-[85%] max-w-sm bg-paper-50 shadow-2xl p-5 flex-col gap-6 overflow-y-auto animate-slideIn">
+    <div class="flex items-center justify-between">
+      <h3 class="font-semibold text-lg">Filtros</h3>
+      <button class="btn-icon" onclick="toggleFilters()">✕</button>
+    </div>
+    <div>
+      <h4 class="font-semibold mb-3 text-sm">Categoría</h4>
+      <div class="flex flex-col gap-2 text-sm">
+        <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600" checked> Movilidad</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600"> Moda</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="accent-brand-600"> Hogar</label>
+      </div>
+    </div>
+    <div class="divider-dashed"></div>
+    <div>
+      <h4 class="font-semibold mb-3 text-sm">Estado</h4>
+      <div class="flex flex-wrap gap-2">
+        <span class="chip-active">Como nuevo</span>
+        <span class="chip">Buen estado</span>
+      </div>
+    </div>
+    <button class="btn-primary w-full mt-auto" onclick="toggleFilters()">Ver resultados</button>
+  </div>
+</section>
+
+<!-- ===================== 3. DETALLE DE PRODUCTO ===================== -->
+<section id="view-detalle" class="view hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid lg:grid-cols-12 gap-10">
+
+      <!-- Galería -->
+      <div class="lg:col-span-6">
+        <div class="relative">
+          <img id="gallery-main" src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=900&q=70" class="w-full aspect-[4/3] object-cover rounded-tag border border-brand-200" alt="Bicicleta urbana reacondicionada">
+          <span class="badge-eco absolute top-3 left-3">Como nuevo</span>
+        </div>
+        <div class="grid grid-cols-4 gap-3 mt-3">
+          <img onclick="document.getElementById('gallery-main').src=this.src" src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=200&q=60" class="w-full aspect-square object-cover rounded-tag border-2 border-brand-500 cursor-pointer">
+          <img onclick="document.getElementById('gallery-main').src=this.src" src="https://images.unsplash.com/photo-1502744688674-c619d1586c9e?w=200&q=60" class="w-full aspect-square object-cover rounded-tag border border-brand-200 cursor-pointer hover:border-brand-500">
+          <img onclick="document.getElementById('gallery-main').src=this.src" src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=200&q=60" class="w-full aspect-square object-cover rounded-tag border border-brand-200 cursor-pointer hover:border-brand-500">
+          <img onclick="document.getElementById('gallery-main').src=this.src" src="https://images.unsplash.com/photo-1571333250630-f0230c320b8d?w=200&q=60" class="w-full aspect-square object-cover rounded-tag border border-brand-200 cursor-pointer hover:border-brand-500">
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="lg:col-span-6">
+        <p class="section-eyebrow mb-2">Movilidad · Bicicletas</p>
+        <h1 class="text-3xl font-semibold mb-3">Bicicleta urbana Trek FX2, aro 700</h1>
+        <div class="flex items-center gap-3 mb-5">
+          <span class="price-tag-lg">S/ 620</span>
+          <span class="price-tag-old">S/ 890</span>
+          <span class="badge-gold">-30%</span>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="badge-eco">Estado: como nuevo</span>
+          <span class="badge-neutral">Uso: 8 meses</span>
+          <span class="badge-clay">Envío disponible</span>
+        </div>
+
+        <p class="text-brand-700 mb-6 leading-relaxed">
+          Bicicleta híbrida ideal para ciudad, poco uso y siempre guardada bajo techo. Se entrega con manual, luces delanteras y trasera, y candado en U. Se vende por cambio de ciudad; funciona perfectamente y no presenta golpes ni óxido en el cuadro.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+          <div class="card p-3"><p class="text-brand-500">Marca</p><p class="font-semibold">Trek</p></div>
+          <div class="card p-3"><p class="text-brand-500">Talla de cuadro</p><p class="font-semibold">M (17'')</p></div>
+          <div class="card p-3"><p class="text-brand-500">Material</p><p class="font-semibold">Aluminio</p></div>
+          <div class="card p-3"><p class="text-brand-500">Cambios</p><p class="font-semibold">21 velocidades</p></div>
+        </div>
+
+        <div class="flex flex-col xs:flex-row gap-3 mb-6">
+          <button class="btn-primary flex-1" onclick="goTo('carrito')">Agregar al carrito</button>
+          <button class="btn-secondary flex-1">Contactar vendedor</button>
+        </div>
+
+        <!-- Mini vendedor -->
+        <button onclick="goTo('perfil')" class="card-hover w-full flex items-center gap-3 p-4 text-left">
+          <img src="https://i.pravatar.cc/80?img=15" class="w-11 h-11 rounded-full object-cover" alt="">
+          <div class="flex-1">
+            <p class="font-semibold text-sm">Jorge Medina</p>
+            <p class="text-xs text-brand-500">★ 4.9 · 63 ventas · Responde en 1 hora</p>
+          </div>
+          <svg class="w-4 h-4 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Relacionados -->
+    <div class="mt-16">
+      <h2 class="text-xl font-semibold mb-6">Productos relacionados</h2>
+      <div id="related-grid" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4. PERFIL VENDEDOR ===================== -->
+<section id="view-perfil" class="view hidden">
+  <div class="bg-brand-800 h-40 md:h-56"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row sm:items-end gap-5 -mt-14 mb-8">
+      <img src="https://i.pravatar.cc/160?img=15" class="w-28 h-28 rounded-full border-4 border-paper-50 object-cover" alt="Jorge Medina">
+      <div class="flex-1 pb-1">
+        <h1 class="text-2xl font-semibold">Jorge Medina</h1>
+        <p class="text-brand-500 text-sm">Miembro desde 2022 · Lima, Perú</p>
+      </div>
+      <button class="btn-secondary">Enviar mensaje</button>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+      <div class="card p-4 text-center"><p class="text-2xl font-display font-semibold">4.9</p><p class="text-xs text-brand-500 uppercase font-tag">Reputación</p></div>
+      <div class="card p-4 text-center"><p class="text-2xl font-display font-semibold">63</p><p class="text-xs text-brand-500 uppercase font-tag">Ventas</p></div>
+      <div class="card p-4 text-center"><p class="text-2xl font-display font-semibold">21</p><p class="text-xs text-brand-500 uppercase font-tag">Publicados</p></div>
+      <div class="card p-4 text-center"><p class="text-2xl font-display font-semibold">1h</p><p class="text-xs text-brand-500 uppercase font-tag">Resp. promedio</p></div>
+    </div>
+
+    <div class="flex gap-6 border-b border-brand-200 mb-8 text-sm">
+      <button class="navlink-active pb-3" onclick="switchProfileTab('productos', this)">Productos publicados</button>
+      <button class="navlink pb-3" onclick="switchProfileTab('comentarios', this)">Comentarios</button>
+    </div>
+
+    <div id="profile-productos">
+      <div id="seller-grid" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16"></div>
+    </div>
+
+    <div id="profile-comentarios" class="hidden flex flex-col gap-4 mb-16 max-w-2xl">
+      <div class="card p-4 flex gap-3">
+        <img src="https://i.pravatar.cc/80?img=25" class="w-9 h-9 rounded-full object-cover">
+        <div>
+          <p class="font-semibold text-sm">Camila R. <span class="text-brand-400 font-normal">★★★★★</span></p>
+          <p class="text-sm text-brand-700">Todo tal cual la descripción, entrega puntual y bien empacado.</p>
+        </div>
+      </div>
+      <div class="card p-4 flex gap-3">
+        <img src="https://i.pravatar.cc/80?img=41" class="w-9 h-9 rounded-full object-cover">
+        <div>
+          <p class="font-semibold text-sm">Luis P. <span class="text-brand-400 font-normal">★★★★☆</span></p>
+          <p class="text-sm text-brand-700">Buena comunicación, el producto tenía un pequeño detalle no mencionado pero lo resolvió rápido.</p>
+        </div>
+      </div>
+      <div class="card p-4 flex gap-3">
+        <img src="https://i.pravatar.cc/80?img=8" class="w-9 h-9 rounded-full object-cover">
+        <div>
+          <p class="font-semibold text-sm">Andrea M. <span class="text-brand-400 font-normal">★★★★★</span></p>
+          <p class="text-sm text-brand-700">Vendedor muy confiable, ya es mi segunda compra con él.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. CARRITO Y RESUMEN ===================== -->
+<section id="view-carrito" class="view hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-2xl font-semibold mb-8">Tu carrito</h1>
+    <div class="grid lg:grid-cols-12 gap-10">
+
+      <div class="lg:col-span-8 flex flex-col gap-4">
+        <div class="card p-4 flex flex-col xs:flex-row gap-4 items-start xs:items-center">
+          <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=200&q=60" class="w-full xs:w-24 h-24 object-cover rounded-tag">
+          <div class="flex-1 min-w-0">
+            <p class="font-semibold truncate">Bicicleta urbana Trek FX2, aro 700</p>
+            <p class="text-sm text-brand-500">Estado: como nuevo · Vendedor: Jorge Medina</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="btn-icon w-8 h-8" onclick="updateQty(this,-1)">−</button>
+            <span class="w-6 text-center font-tag qty">1</span>
+            <button class="btn-icon w-8 h-8" onclick="updateQty(this,1)">+</button>
+          </div>
+          <p class="price-tag w-24 text-right">S/ 620</p>
+          <button class="btn-icon w-8 h-8 text-clay-500 hover:border-clay-500" aria-label="Quitar" onclick="this.closest('.card').remove()">✕</button>
+        </div>
+
+        <div class="card p-4 flex flex-col xs:flex-row gap-4 items-start xs:items-center">
+          <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=200&q=60" class="w-full xs:w-24 h-24 object-cover rounded-tag">
+          <div class="flex-1 min-w-0">
+            <p class="font-semibold truncate">Chaqueta de cuero vintage talla M</p>
+            <p class="text-sm text-brand-500">Estado: buen estado · Vendedor: Ana Ruiz</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="btn-icon w-8 h-8" onclick="updateQty(this,-1)">−</button>
+            <span class="w-6 text-center font-tag qty">1</span>
+            <button class="btn-icon w-8 h-8" onclick="updateQty(this,1)">+</button>
+          </div>
+          <p class="price-tag w-24 text-right">S/ 145</p>
+          <button class="btn-icon w-8 h-8 text-clay-500 hover:border-clay-500" onclick="this.closest('.card').remove()">✕</button>
+        </div>
+
+        <div class="alert-info">
+          <svg class="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          <p>Los productos de segunda mano no admiten devolución por cambio de opinión, solo por disconformidad con la descripción.</p>
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="lg:col-span-4">
+        <div class="card p-5 sticky top-24 flex flex-col gap-4">
+          <h2 class="font-semibold text-lg">Resumen de compra</h2>
+          <div class="flex flex-col gap-2 text-sm">
+            <div class="flex justify-between"><span class="text-brand-500">Subtotal</span><span>S/ 765</span></div>
+            <div class="flex justify-between"><span class="text-brand-500">Envío</span><span>S/ 18</span></div>
+            <div class="flex justify-between"><span class="text-brand-500">Descuento</span><span class="text-brand-600">− S/ 30</span></div>
+          </div>
+          <div class="divider-dashed"></div>
+          <div class="flex justify-between items-baseline">
+            <span class="font-semibold">Total</span>
+            <span class="price-tag-lg">S/ 753</span>
+          </div>
+
+          <div>
+            <label class="field-label">Dirección de entrega</label>
+            <input class="input mb-2" placeholder="Calle, número, distrito">
+            <input class="input" placeholder="Referencia (opcional)">
+          </div>
+
+          <button class="btn-primary w-full">Confirmar compra</button>
+          <button class="btn-ghost w-full" onclick="goTo('catalogo')">Seguir explorando</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6. PUBLICAR / AYUDA ===================== -->
+<section id="view-publicar" class="view hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid lg:grid-cols-12 gap-10">
+
+      <!-- Formulario -->
+      <form class="lg:col-span-7 flex flex-col gap-6" onsubmit="return handlePublish(event)">
+        <div>
+          <h1 class="text-2xl font-semibold mb-1">Publica tu producto</h1>
+          <p class="text-brand-500 text-sm">Cuanta más información honesta des, más rápido se vende.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Fotos del producto</label>
+          <div id="dropzone" class="border-2 border-dashed border-brand-300 rounded-tag p-8 text-center text-brand-500 cursor-pointer hover:border-brand-500 hover:bg-brand-50 transition-colors" onclick="document.getElementById('file-input').click()">
+            <svg class="w-8 h-8 mx-auto mb-2 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4m0 0-4 4m4-4 4 4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+            <p class="text-sm">Arrastra imágenes aquí o haz clic para subirlas</p>
+            <p class="text-xs text-brand-400">Hasta 6 fotos · JPG o PNG</p>
+          </div>
+          <input id="file-input" type="file" multiple accept="image/*" class="hidden" onchange="previewImages(event)">
+          <div id="image-preview" class="grid grid-cols-4 sm:grid-cols-6 gap-2 mt-3"></div>
+        </div>
+
+        <div>
+          <label class="field-label">Título del producto</label>
+          <input class="input-invalid" placeholder="Ej. Bicicleta urbana Trek FX2, aro 700">
+          <p class="text-xs text-clay-600 mt-1">El título debe tener al menos 10 caracteres.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label">Categoría</label>
+            <select class="select"><option>Movilidad</option><option>Moda</option><option>Hogar</option><option>Tecnología</option><option>Libros</option><option>Niños</option></select>
+          </div>
+          <div>
+            <label class="field-label">Precio (S/)</label>
+            <input type="number" class="input-valid" value="620">
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Estado del producto</label>
+          <div class="flex flex-wrap gap-2">
+            <span class="chip-active">Como nuevo</span>
+            <span class="chip">Buen estado</span>
+            <span class="chip">Con detalles</span>
+            <span class="chip">Para repuestos</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Descripción</label>
+          <textarea class="input min-h-[120px]" placeholder="Describe el uso, estado real, motivo de venta y cualquier detalle relevante."></textarea>
+        </div>
+
+        <div class="flex gap-3">
+          <button type="submit" class="btn-primary flex-1">Publicar producto</button>
+          <button type="button" class="btn-secondary">Guardar borrador</button>
+        </div>
+
+        <div id="publish-feedback" class="hidden"></div>
+      </form>
+
+      <!-- Ayuda / FAQ -->
+      <div class="lg:col-span-5">
+        <div class="card p-5 mb-6">
+          <h2 class="font-semibold mb-3">Consejos para vender rápido</h2>
+          <ul class="text-sm text-brand-700 flex flex-col gap-2">
+            <li class="flex gap-2"><span class="text-brand-500">✓</span> Usa luz natural para las fotos.</li>
+            <li class="flex gap-2"><span class="text-brand-500">✓</span> Sé honesto sobre el estado real.</li>
+            <li class="flex gap-2"><span class="text-brand-500">✓</span> Responde rápido a los interesados.</li>
+          </ul>
+        </div>
+
+        <h2 class="font-semibold mb-3">Preguntas frecuentes</h2>
+        <div class="flex flex-col gap-2" id="faq">
+          <div class="card">
+            <button class="w-full flex justify-between items-center p-4 text-left font-medium text-sm" onclick="toggleFaq(this)">
+              ¿Cómo se calcula el envío?
+              <span class="transition-transform">＋</span>
+            </button>
+            <div class="hidden px-4 pb-4 text-sm text-brand-600">Se calcula según el peso, tamaño y distancia entre comprador y vendedor. Puedes ver el costo estimado antes de confirmar la compra.</div>
+          </div>
+          <div class="card">
+            <button class="w-full flex justify-between items-center p-4 text-left font-medium text-sm" onclick="toggleFaq(this)">
+              ¿Qué pasa si el producto no llega como se describió?
+              <span class="transition-transform">＋</span>
+            </button>
+            <div class="hidden px-4 pb-4 text-sm text-brand-600">Cuentas con 48 horas para reportarlo y abrir una disputa; nuestro equipo mediará entre ambas partes.</div>
+          </div>
+          <div class="card">
+            <button class="w-full flex justify-between items-center p-4 text-left font-medium text-sm" onclick="toggleFaq(this)">
+              ¿Puedo intercambiar en vez de vender?
+              <span class="transition-transform">＋</span>
+            </button>
+            <div class="hidden px-4 pb-4 text-sm text-brand-600">Sí, al publicar puedes marcar tu producto como disponible para intercambio y proponer qué te gustaría recibir a cambio.</div>
+          </div>
+          <div class="card">
+            <button class="w-full flex justify-between items-center p-4 text-left font-medium text-sm" onclick="toggleFaq(this)">
+              ¿Cómo funciona la reputación de vendedores?
+              <span class="transition-transform">＋</span>
+            </button>
+            <div class="hidden px-4 pb-4 text-sm text-brand-600">Cada compra genera una calificación pública de 1 a 5 estrellas y un comentario visible en el perfil del vendedor.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER (contraste oscuro) ===================== -->
+<footer class="bg-brand-900 text-brand-200 py-12 mt-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+    <div>
+      <p class="font-display text-lg text-paper-50 mb-3">Recirca</p>
+      <p class="text-brand-300">Marketplace para comprar, vender e intercambiar productos reutilizados.</p>
+    </div>
+    <div>
+      <p class="font-tag uppercase text-xs text-brand-400 mb-3">Explorar</p>
+      <ul class="flex flex-col gap-2"><li><button onclick="goTo('catalogo')" class="hover:text-paper-50">Catálogo</button></li><li><button onclick="goTo('publicar')" class="hover:text-paper-50">Publicar producto</button></li></ul>
+    </div>
+    <div>
+      <p class="font-tag uppercase text-xs text-brand-400 mb-3">Soporte</p>
+      <ul class="flex flex-col gap-2"><li><button onclick="goTo('publicar')" class="hover:text-paper-50">Preguntas frecuentes</button></li><li><button class="hover:text-paper-50">Contacto</button></li></ul>
+    </div>
+    <div>
+      <p class="font-tag uppercase text-xs text-brand-400 mb-3">Comunidad</p>
+      <ul class="flex flex-col gap-2"><li><button class="hover:text-paper-50">Impacto ambiental</button></li><li><button class="hover:text-paper-50">Historias de reuso</button></li></ul>
+    </div>
+  </div>
+  <p class="text-center text-brand-500 text-xs mt-10">© 2026 Recirca. Hecho para una economía circular.</p>
+</footer>
+
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
